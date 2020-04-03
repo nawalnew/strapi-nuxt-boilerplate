@@ -20,12 +20,7 @@
         <p>Thanks for subscribing!</p>
         </template>
 
-<template v-if="$auth.user.avatar === null">
-     <b-img rounded="circle" blank width="75" height="75" blank-color="#777" alt="img" class="m-1" />
-  </template>
-<template v-else>
-<b-img :src="'http://localhost:1337' + $auth.user.avatar.url" rounded="circle" width="100" height="100" alt="img" class="m-1" />
-</template>
+
 
       <div class="links">
         <nuxt-link to="/" class="button--green">Home</nuxt-link>
@@ -41,8 +36,8 @@ import AppLogo from '~/components/AppLogo.vue'
 
 export default {
 async asyncData (ctx) {
-    let { data } = await ctx.app.$axios.get('/user' )
-    return { 
+    let { data } = await ctx.app.$axios.get('/users/me' )
+    return {
       username: data.username,
       avatar: data.avatar }
   },

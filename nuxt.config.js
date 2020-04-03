@@ -42,7 +42,7 @@ module.exports = {
   'nuxt-validate',
   'bootstrap-vue/nuxt',
   '@nuxtjs/sentry'
-  
+
 ],
 
 auth: {
@@ -52,7 +52,7 @@ auth: {
       endpoints: {
         login: { url: '/auth/local', method: 'post', propertyName: 'jwt' },
         register: { url: '/auth/local/register', method: 'post'},
-        user: { url: '/user/me', method: 'get', propertyName: null},
+        user: { url: '/users/me', method: 'get', propertyName: false},
         logout: null
       },
       // tokenRequired: true,
@@ -75,7 +75,7 @@ sentry: {
   project_id: '',
   config: {
     // Additional config
-    
+
   },
 }
 }

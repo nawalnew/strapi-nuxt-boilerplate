@@ -57,9 +57,9 @@ export default {
   },
   methods: {
 async register(data) {
-  
+
   try {
-   await $axios.$post('http://localhost:1337/auth/local/register', {
+   await this.$axios.$post('http://localhost:1337/auth/local/register', {
     username: this.formUsername,
     password: this.formPassword,
     email: this.formEmail,
@@ -67,7 +67,7 @@ async register(data) {
     lastName: this.formLastName
   }).then(response => {
     console.log(response);
-    this.$auth.setToken('local', response.data.jwt);
+    this.$auth.setToken('local', response.jwt);
   })
   this.$toast.success('Success! You have been registered.', {duration: 2000});
   await this.$auth.loginWith('local', {
@@ -75,10 +75,10 @@ async register(data) {
     identifier: this.formUsername,
     password: this.formPassword
   }
-  
+
 })
 
-  
+
   } catch(e){
     console.log(e);
      this.$toast.error(`Hmmm... Something isn't right. Did you already register?`, {duration: 2000});

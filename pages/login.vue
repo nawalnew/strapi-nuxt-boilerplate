@@ -40,13 +40,13 @@ export default {
   methods: {
     async login() {
       try {
-        // this.$toast.show('Logging in...', { duration: 500})
+         this.$toast.show('Logging in...', { duration: 500})
         await this.$auth.loginWith('local', {
   data: {
     identifier: this.formUsername,
     password: this.formPassword
   }
-  
+
 })
         this.$toast.success('Success! Logging you in now.', {duration: 2000})
         this.formUsername = ''

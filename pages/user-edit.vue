@@ -2,34 +2,34 @@
   <section class="container">
     <div>
       <app-logo/>
-<form @submit.prevent="register">
-      <p class="error" v-if="formError">{{ formError }}</p>
-      <p>Edit your Account Info</p>
-      <p>Username: <input v-validate="{ required: true, min: 6 }" type="text" v-model="formUsername" name="username" /></p>
-      <p>Email: <input v-validate="'required|email'" type="text" v-model="formEmail" name="email" /></p>
-      <!-- If it has an email error, display the first message associated with it. -->
-        <span v-show="errors.has('email')"><b-badge variant="danger">{{ errors.first('email') }}</b-badge></span>
+      <form @submit.prevent="register">
+          <p class="error" v-if="formError">{{ formError }}</p>
+          <p>Edit your Account Info</p>
+          <p>Username: <input v-validate="{ required: true, min: 6 }" type="text" v-model="formUsername" name="username" /></p>
+          <p>Email: <input v-validate="'required|email'" type="text" v-model="formEmail" name="email" /></p>
+          <!-- If it has an email error, display the first message associated with it. -->
+            <span v-show="errors.has('email')"><b-badge variant="danger">{{ errors.first('email') }}</b-badge></span>
 
-      <!-- Personal info -->
+          <!-- Personal info -->
 
-        <p>First Name: <input v-validate="'required'" type="text" v-model="formFirstName" name="firstName" /></p>
-        <!-- FirstName error display -->
-        <span v-show="errors.has('firstName')"><b-badge variant="danger">{{ errors.first('firstName') }}</b-badge></span>
+            <p>First Name: <input v-validate="'required'" type="text" v-model="formFirstName" name="firstName" /></p>
+            <!-- FirstName error display -->
+            <span v-show="errors.has('firstName')"><b-badge variant="danger">{{ errors.first('firstName') }}</b-badge></span>
 
-        <p>Last Name: <input v-validate="'required'" type="text" v-model="formLastName" name="lastName" /></p>
-        <!-- LastName error display -->
-        <span v-show="errors.has('lastName')"><b-badge variant="danger">{{ errors.first('lastName') }}</b-badge></span>
+            <p>Last Name: <input v-validate="'required'" type="text" v-model="formLastName" name="lastName" /></p>
+            <!-- LastName error display -->
+            <span v-show="errors.has('lastName')"><b-badge variant="danger">{{ errors.first('lastName') }}</b-badge></span>
 
-      <!-- /Personal info -->
-      <p><b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..." name="file" accept="image/*"></b-form-file></p>
+          <!-- /Personal info -->
+          <p><b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..." name="file" accept="image/*"></b-form-file></p>
 
-      <!-- <p>Password: <input v-validate="{ required: true, min: 6 }" type="password" v-model="formPassword" name="password" /></p>
-      <span v-show="errors.has('password')"><b-badge variant="danger">{{ errors.first('password') }}</b-badge></span><br/>
-      
-      <p>Confirm Password: <input v-validate="{ required: true, min: 6, confirmed:'password' }" type="password" name="confirmPassword" /></p>
-      <span v-show="errors.has('confirmPassword')"><b-badge variant="danger">{{ errors.first('confirmPassword') }}</b-badge></span><br/> -->
+          <!-- <p>Password: <input v-validate="{ required: true, min: 6 }" type="password" v-model="formPassword" name="password" /></p>
+          <span v-show="errors.has('password')"><b-badge variant="danger">{{ errors.first('password') }}</b-badge></span><br/>
 
-      <button :disabled="errors.any()" type="submit">Edit Info</button>
+          <p>Confirm Password: <input v-validate="{ required: true, min: 6, confirmed:'password' }" type="password" name="confirmPassword" /></p>
+          <span v-show="errors.has('confirmPassword')"><b-badge variant="danger">{{ errors.first('confirmPassword') }}</b-badge></span><br/> -->
+
+          <button :disabled="errors.any()" type="submit">Edit Info</button>
     </form>
 
     <p><nuxt-link to="/">return to home</nuxt-link></p>
@@ -62,26 +62,27 @@ export default {
   methods: {
 
 async register(data) {
-  
+
   try {
-   await this.$axios.$put('http://localhost:1337/user/' + this.$auth.user._id, {
-    // username: this.formUsername,
-    // password: this.formPassword,
-    // email: this.formEmail,
+   await this.$axios.$put('http://localhost:1337/users/' + this.$auth.user.id, {
+     username: this.formUsername,
+     // password: this.formPassword,
+     // email: this.formEmail,
+
     firstName: this.formFirstName,
     lastName: this.formLastName
   }).then(response => {
     console.log(response);
-    // this.$auth.setToken('local', response.data.jwt);
+  //  this.$auth.setToken('local', response.data.jwt);
   })
 
-  await this.$axios.$post('/upload?refId=' + this.$auth.user._id + '&ref=user&source=users-permissions&field=avatar', {
-    files: this.file
-
-  }).then(response => {
-    console.log(response);
-    // this.$auth.setToken('local', response.data.jwt);
-  })
+  // await this.$axios.$post('/upload?refId=' + this.$auth.user.id + '&ref=user&source=users-permissions&field=avatar', {
+  //   files: this.file
+  //
+  // }).then(response => {
+  //   console.log(response);
+  //   // this.$auth.setToken('local', response.data.jwt);
+  // })
   this.$toast.success('Success! You have updated your account info.', {duration: 2000});
   await this.$auth.fetchUser()
 //   await this.$auth.loginWith('local', {
@@ -89,23 +90,28 @@ async register(data) {
 //     identifier: this.formUsername,
 //     password: this.formPassword
 //   }
-  
+
 // })
 
-  
+
   } catch(e){
     console.log(e);
      this.$toast.error(`Hmmm... Something isn't right.?`, {duration: 2000});
   }
   },
+
+
   async fetchSomething() {
-    const userInfo = await this.$axios.$get('/user/me', {
+    const userInfo = await this.$axios.$get('/users/me', {
 
     }).then(response => {
     console.log(response);
     // this.$auth.setToken('local', response.data.jwt);
+
+
   })
     this.userInfo = userInfo
+
   }
 
   }
