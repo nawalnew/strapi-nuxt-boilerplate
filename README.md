@@ -1,4 +1,4 @@
-# Strapi-Nuxt-boilerplate
+# Strapi Nuxt Authentification boilerplate for Strapi 3.0.0 Beta
 # Updated for Strapi 3.0.0 Beta
 
 This is a Complete Setup with whole User Permission system and @nuxt/auth solution.
